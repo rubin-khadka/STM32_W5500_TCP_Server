@@ -5,6 +5,8 @@
 
 https://github.com/user-attachments/assets/4a0488ed-904f-4a00-b415-62d009fe5d92
 
+### Ping and Loopback Test
+
 https://github.com/user-attachments/assets/d044e692-bb7e-4cfb-abd7-84d8e505185a
 
 ### Static IP configuration 
