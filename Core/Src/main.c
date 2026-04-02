@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "wizchip_port.h"
 #include "usart1.h"
+#include "tcp_server.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
