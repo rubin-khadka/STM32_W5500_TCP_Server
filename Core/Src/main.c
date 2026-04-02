@@ -100,6 +100,7 @@ int main(void)
     Error_Handler();
   }
 
+  tcp_server();
   /* USER CODE END 2 */
 
   /* Infinite loop */
