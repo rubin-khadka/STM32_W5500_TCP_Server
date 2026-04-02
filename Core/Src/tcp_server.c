@@ -9,8 +9,9 @@
 #include "socket.h"
 #include "wizchip_conf.h"
 #include "usart1.h"
-#include "tcp_server.h"
 
+#define TCP_SERVER_SOCKET   0
+#define TCP_SERVER_PORT     5000
 #define BUFFER_SIZE         256
 
 uint8_t buffer[BUFFER_SIZE];
@@ -19,6 +20,7 @@ void tcp_server(void)
 {
   int32_t ret;
   uint8_t status;
+  uint16_t available_data;
 
   // Create socket
   if(socket(TCP_SERVER_SOCKET, Sn_MR_TCP, TCP_SERVER_PORT, 0) != TCP_SERVER_SOCKET)
@@ -35,7 +37,7 @@ void tcp_server(void)
     return;
   }
 
-  USART1_SendString("TCP Echo Server running on port ");
+  USART1_SendString("Non-blocking TCP Echo Server on port ");
   USART1_SendNumber(TCP_SERVER_PORT);
   USART1_SendString("\r\n");
   USART1_SendString("Waiting for client...\r\n");
@@ -48,13 +50,13 @@ void tcp_server(void)
     switch(status)
     {
       case SOCK_ESTABLISHED:
-        USART1_SendString("Client connected!\r\n");
+        // Check how many bytes are waiting
+        available_data = getSn_RX_RSR(TCP_SERVER_SOCKET);
 
-        // Keep echoing while connected
-        while(getSn_SR(TCP_SERVER_SOCKET) == SOCK_ESTABLISHED)
+        if(available_data > 0)
         {
-          // BLOCKING: Wait for data
-          ret = recv(TCP_SERVER_SOCKET, buffer, BUFFER_SIZE);
+          // Only read if data is available
+          ret = recv(TCP_SERVER_SOCKET, buffer, (available_data < BUFFER_SIZE) ? available_data : BUFFER_SIZE);
 
           if(ret > 0)
           {
@@ -66,19 +68,24 @@ void tcp_server(void)
             USART1_SendString((char*) buffer);
             USART1_SendString("\r\n");
 
-            // ECHO BACK: Send same data to client
+            // ECHO BACK
             send(TCP_SERVER_SOCKET, buffer, ret);
             USART1_SendString("Echoed back\r\n");
           }
-          else if(ret == SOCKERR_TIMEOUT)
-          {
-            // can add timeout here
-          }
         }
+
+        static int counter = 0;
+        counter++;
+        if(counter >= 100)
+        {
+          counter = 0;
+          USART1_SendString("Other Tasks \r\n");  // Show that CPU is still alive
+        }
+
         break;
 
       case SOCK_CLOSE_WAIT:
-        USART1_SendString("Client disconnected\r\n");
+        USART1_SendString("\r\nClient disconnected\r\n");
         disconnect(TCP_SERVER_SOCKET);
         break;
 
@@ -94,6 +101,7 @@ void tcp_server(void)
         break;
     }
 
+    // Small delay to prevent CPU hogging
     HAL_Delay(10);
   }
 }
