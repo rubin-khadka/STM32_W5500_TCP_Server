@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "wizchip_port.h"
 #include "loopback.h"
+#include "usart1.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -95,6 +96,8 @@ int main(void)
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+
+  USART1_Init();
 
   if (W5500_Init() != 0)
   {
