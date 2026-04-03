@@ -10,6 +10,7 @@
 #include "wizchip_conf.h"
 #include "usart1.h"
 #include "gpio.h"
+#include "string.h"
 
 #define TCP_SERVER_SOCKET   0
 #define TCP_SERVER_PORT     5000
@@ -129,7 +130,7 @@ void tcp_server(void)
         {
           // Just a heartbeat indicator
           last_blink = HAL_GetTick();
-          USART1_SendString(".");
+          USART1_SendString("Other task working, non blocking server \r\n");
         }
 
         break;
