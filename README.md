@@ -4,11 +4,11 @@
 
 ### Hardware Configuration
 
-https://github.com/user-attachments/assets/6983baa6-2b7a-4018-a383-f170a34822e0
+https://github.com/user-attachments/assets/54fb3c90-6c4b-4000-b320-3ebbdf4ceb6b
 
-### UART Debug 
+### TCP client control
 
-https://github.com/user-attachments/assets/85806fc2-7f82-4687-9b4e-68057d36a2b0
+https://github.com/user-attachments/assets/ee12a8c4-3a94-4d38-b045-1f45fb906525
 
 ### Static IP Configuration in windows
 
@@ -21,7 +21,7 @@ https://github.com/user-attachments/assets/85806fc2-7f82-4687-9b4e-68057d36a2b0
 ## Project Status
 - **Status**: Complete
 - **Version**: v1.0
-- **Last Updated**: March 2026
+- **Last Updated**: April 2026
 
 ## Contact
 **Rubin Khadka Chhetri**  
